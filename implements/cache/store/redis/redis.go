@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/ant-go/framework/contracts"
 	"github.com/ant-go/framework/contracts/icache"
 	"github.com/ant-go/framework/contracts/ierror"
 	"github.com/ant-go/framework/implements/cache/store"
@@ -59,10 +60,8 @@ func (s *Store) Get(ctx context.Context, key any) (value any, exists bool, err e
 }
 
 func (s *Store) Set(ctx context.Context, key, value any, options ...icache.StoreOption) (err error) {
-	var o icache.StoreOptions
-	for _, option := range options {
-		option(&o)
-	}
+	var o *icache.StoreOptions
+	contracts.ApplyOptions(o, options)
 
 	var stringKey string
 	if stringKey, err = validateKey(key); err != nil {
