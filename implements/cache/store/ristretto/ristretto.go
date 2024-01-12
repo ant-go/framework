@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/ant-go/framework/contracts"
 	"github.com/ant-go/framework/contracts/icache"
 	"github.com/ant-go/framework/contracts/ierror"
 	"github.com/ant-go/framework/implements/cache/store"
@@ -46,10 +47,8 @@ func (s *Store) Get(_ context.Context, key any) (value any, exists bool, err err
 }
 
 func (s *Store) Set(_ context.Context, key, value any, options ...icache.StoreOption) (err error) {
-	var o icache.StoreOptions
-	for _, option := range options {
-		option(&o)
-	}
+	var o *icache.StoreOptions
+	contracts.ApplyOptions(o, options)
 
 	if ok := s.client.SetWithTTL(key, value, o.Cost, o.Expiration); !ok {
 		err = ierror.New(icache.ErrSetFailed, "key", key, "value", value, "ttl", o.Expiration, "cost", o.Cost)
