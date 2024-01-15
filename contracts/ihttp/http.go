@@ -9,13 +9,13 @@ import (
 )
 
 type Client interface {
-	Do(ctx context.Context, method, url string, options ...RequestOption) (resp Response, err error)
+	Do(ctx context.Context, method, uri string, options ...RequestOption) (resp Response, err error)
 
-	Get(ctx context.Context, url string, options ...RequestOption) (resp Response, err error)
-	Post(ctx context.Context, url string, options ...RequestOption) (resp Response, err error)
-	Put(ctx context.Context, url string, options ...RequestOption) (resp Response, err error)
-	Patch(ctx context.Context, url string, options ...RequestOption) (resp Response, err error)
-	Delete(ctx context.Context, url string, options ...RequestOption) (resp Response, err error)
+	Get(ctx context.Context, uri string, options ...RequestOption) (resp Response, err error)
+	Post(ctx context.Context, uri string, options ...RequestOption) (resp Response, err error)
+	Put(ctx context.Context, uri string, options ...RequestOption) (resp Response, err error)
+	Patch(ctx context.Context, uri string, options ...RequestOption) (resp Response, err error)
+	Delete(ctx context.Context, uri string, options ...RequestOption) (resp Response, err error)
 }
 
 type ResponseStatus interface {
@@ -48,3 +48,10 @@ type Response interface {
 	ResponseCodec
 	ResponseInfo
 }
+
+const (
+	HeaderContentType = "Content-Type"
+	ContentTypeEmpty  = ""
+	ContentTypeForm   = "application/x-www-form-urlencoded"
+	ContentTypeJson   = "application/json"
+)
